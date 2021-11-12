@@ -19,7 +19,7 @@ In this challenge you will create a login page and request a token from the serv
 
 ## Project Instructions
 In this project, you will demonstrate your mastery of these skills by creating **a login page** and **basic CRUD application.** You will implement basic security using **token authentication** and build private routes within the applcation.
- 
+
 ## Project Requirements
 
 **See reference materials at the bottom of the this document for API Reference Details.**
@@ -50,13 +50,14 @@ In this project, you will demonstrate your mastery of these skills by creating *
 ### Request Authentication
 > *Complete the requests needed to execute all CRUD functions.*
 * [x] Build a `axiosWithAuth` module within the utils folder to create an instance of axios with the authentication header.
-* [ ] Complete the `services/articleService.js` module. It should use make an authenticated call to retrieve and return all articles from the server.
 
-* [ ] In `View.js`, when the component mounts, use `articleService` to make an http request and add all articles to state.
+* [x] Complete the `services/articleService.js` module. It should use make an authenticated call to retrieve and return all articles from the server.
 
-* [ ] In `View.js`, complete `handleDelete` so that a http request is made that deletes the article with the included id. After successfully deleting the article on the api, update local state to reflect these changes.
+* [x] In `View.js`, when the component mounts, use `articleService` to make an http request and add all articles to state.
 
-* [ ] `editId` is passed into the `EditForm` component. In `EditForm.js`, make a http request on mount to get the article with the id `editId`. Save the result in state.
+* [x] In `View.js`, complete `handleDelete` so that a http request is made that deletes the article with the included id. After successfully deleting the article on the api, update local state to reflect these changes.
+
+* [x] `editId` is passed into the `EditForm` component. In `EditForm.js`, make a http request on mount to get the article with the id `editId`. Save the result in state.
 
 * [ ] In `View.js`, complete `handleEdit` so that a http request is made that updates the passed in article. Set the editing state to false when the request is complete. After successfully deleting the article on the api, update local state to reflect these changes.
 
@@ -104,7 +105,7 @@ In this project, you will demonstrate your mastery of these skills by creating *
 {
     id: 'aMqwd', //unique article id
     headline: "headline", //title of article
-    createdOn: '2021-08-09T18:02:38-04:00 
+    createdOn: '2021-08-09T18:02:38-04:00
 ', //timestamp of when article was added
     summary: "summary", //short summary statement of article
       body: ""  //paragraph of article text

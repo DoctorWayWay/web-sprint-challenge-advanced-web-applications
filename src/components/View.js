@@ -9,6 +9,9 @@ import EditForm from './EditForm';
 // Article Services
 import articleServices from "../services/articleServices";
 
+// Axios with Authentication
+import axiosWithAuth from '../utils/axiosWithAuth';
+
 const View = (props) => {
   const [articles, setArticles] = useState([]);
   const [editing, setEditing] = useState(false);
@@ -21,6 +24,14 @@ const View = (props) => {
   }, []);
 
   const handleDelete = (id) => {
+    axiosWithAuth()
+      .delete(`http://localhost:5000/api/articles/${id}`)
+      .then((response) => {
+        setArticles(response.data);
+      })
+      .catch((error) => {
+        console.error("COULD NOT DELETE ARTICLE!", error);
+      });
   };
 
   const handleEdit = (article) => {

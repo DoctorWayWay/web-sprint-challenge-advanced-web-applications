@@ -24,7 +24,7 @@ const App = () => {
   };
 
   return (
-    <LoginContext.Provider value={{ isLoggedIn, loginStatus }}>
+    <LoginContext.Provider value={{ isLoggedIn }}>
       <AppContainer>
         <LambdaHeader />
         <Header />

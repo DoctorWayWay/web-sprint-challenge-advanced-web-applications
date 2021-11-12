@@ -8,78 +8,75 @@ import { useHistory } from 'react-router-dom';
 import LoginContext from '../contexts/LoginContext';
 
 const Login = () => {
-    const { push } = useHistory();
+  const { push } = useHistory();
 
-    const { loginStatus } = useContext(LoginContext);
+  const [login, setLogin] = useState({
+    username: "",
+    password: "",
+  });
 
-    const [login, setLogin] = useState({
-        username: "",
-        password: "",
+  const [loginError, setLoginError] = useState(false);
+
+  const [alreadyLoggedIn, setAlreadyLoggedIn] = useState(false);
+
+
+  const handleChange = (event) => {
+    setLogin({
+      ...login,
+      [event.target.name]: event.target.value
     });
+  };
 
-    const [loginError, setLoginError] = useState(false);
-
-    const [alreadyLoggedIn, setAlreadyLoggedIn] = useState(false);
-
-
-    const handleChange = (event) => {
-        setLogin({
-            ...login,
-            [event.target.name]: event.target.value
+  const handleLogin = (event) => {
+    event.preventDefault();
+    if (localStorage.getItem("token")) {
+      setAlreadyLoggedIn(true);
+      return;
+    } else {
+      axios.post(`http://localhost:5000/api/login`, login)
+        .then((response) => {
+          localStorage.setItem("token", response.data.token);
+          push("/view");
+        })
+        .catch(() => {
+          setLoginError(true);
         });
-    };
+    }
+  };
 
-    const handleLogin = (event) => {
-        event.preventDefault();
-        if (localStorage.getItem("token")) {
-            setAlreadyLoggedIn(true);
-            return;
-        } else {
-            axios.post(`http://localhost:5000/api/login`, login)
-                .then((response) => {
-                    localStorage.setItem("token", response.data.token);
-                    loginStatus();
-                    push("/view");
-                })
-                .catch(() => {
-                    setLoginError(true);
-                });
-        }
-    };
-
-    return (<ComponentContainer>
-        <ModalContainer>
-            <h1>Welcome to Blogger Pro</h1>
-            <h2>Please enter your account information.</h2>
-        </ModalContainer>
-        <FormGroup onSubmit={handleLogin}>
-            {loginError === true && <p id="error">Failure to login &#9785;</p>}
-            {alreadyLoggedIn === true && <p>You are already logged in &#9786;</p>}
-            <Label>
-                Username:
-                <Input
-                    type="text"
-                    placeholder="username..."
-                    name="username"
-                    id="username"
-                    value={login.username}
-                    onChange={handleChange}
-                />
-            </Label>
-            <Label>
-                Password:
-                <Input
-                    type="password"
-                    placeholder="password..."
-                    name="password"
-                    id="password"
-                    value={login.password}
-                    onChange={handleChange}
-                />
-            </Label>
-            <Button id="submit">Login</Button>
-        </FormGroup>
-    </ComponentContainer>);
+  return (<ComponentContainer>
+    <ModalContainer>
+      <h1>Welcome to Blogger Pro</h1>
+      <h2>Please enter your account information.</h2>
+    </ModalContainer>
+    <FormGroup onSubmit={handleLogin}>
+      {loginError === true && <p id="error">Failure to login &#9785;</p>}
+      {alreadyLoggedIn === true && <p>You are already logged in &#9786;</p>}
+      <Label>
+        Username:
+        <Input
+          type="text"
+          placeholder="username..."
+          name="username"
+          id="username"
+          value={login.username}
+          onChange={handleChange}
+        />
+      </Label>
+      <Label>
+        Password:
+        <Input
+          type="password"
+          placeholder="password..."
+          name="password"
+          id="password"
+          value={login.password}
+          onChange={handleChange}
+        />
+      </Label>
+      <Button id="submit">Login</Button>
+    </FormGroup>
+  </ComponentContainer>);
 };
 
 export default Login;

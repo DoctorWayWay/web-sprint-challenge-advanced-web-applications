@@ -7,7 +7,7 @@ import Article from './Article';
 import EditForm from './EditForm';
 
 // Article Services
-import articleServices from "../services/articleServices";
+import articleService from "../services/articleServices";
 
 // Axios with Authentication
 import axiosWithAuth from '../utils/axiosWithAuth';
@@ -18,7 +18,7 @@ const View = (props) => {
   const [editId, setEditId] = useState();
 
   useEffect(() => {
-    articleServices().then((response) => {
+    articleService().then((response) => {
       setArticles(response);
     });
   }, []);

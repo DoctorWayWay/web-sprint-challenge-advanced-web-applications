@@ -34,16 +34,16 @@ test('renders headline, author from the article when passed in through props', (
   const author = screen.getByText(/Samson Caviar/i);
   const summary = screen.getByText(/You wish/i);
   const body = screen.getByText(/The cake is a lie/i);
-  expect(headline).toBeInTheDocument;
-  expect(author).toBeInTheDocument;
-  expect(summary).toBeInTheDocument;
-  expect(body).toBeInTheDocument;
+  expect(headline).toBeInTheDocument();
+  expect(author).toBeInTheDocument();
+  expect(summary).toBeInTheDocument();
+  expect(body).toBeInTheDocument();
 });
 
 test('renders "Associated Press" when no author is given', () => {
   render(<Article article={anonymousArticle} />);
   const anonymousResponse = screen.getByText(/Associated Press/i);
-  expect(anonymousResponse).toBeInTheDocument;
+  expect(anonymousResponse).toBeInTheDocument();
 });
 
 test('executes handleDelete when the delete button is pressed', () => {

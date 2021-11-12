@@ -1,34 +1,49 @@
-import React from 'react';
+// Libraries
+import React, { useState } from 'react';
 import { Route, Redirect } from "react-router-dom";
 import PrivateRoute from './PrivateRoute';
+
+// Styled Components
 import styled from 'styled-components';
 
+// Components
 import Header from './Header';
 import LambdaHeader from './LambdaHeader';
 import View from './View';
 import Login from './Login';
 import Logout from './Logout';
 
+// Context
+import LoginContext from "../contexts/LoginContext";
+
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const loginStatus = () => {
+    localStorage.getItem("token") ? setIsLoggedIn(true) : setIsLoggedIn(false);
+  };
+
   return (
-    <AppContainer>
-      <LambdaHeader />
-      <Header />
-      <RouteContainer>
-        <Route path="/logout">
-          <Logout />
-        </Route>
-        <Route exact path="/view">
-          <View />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route exact path="/">
-          <Login />
-        </Route>
-      </RouteContainer>
-    </AppContainer>
+    <LoginContext.Provider value={{ isLoggedIn, loginStatus }}>
+      <AppContainer>
+        <LambdaHeader />
+        <Header />
+        <RouteContainer>
+          <Route path="/logout">
+            <Logout />
+          </Route>
+          <Route exact path="/view">
+            <View />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/">
+            <Login />
+          </Route>
+        </RouteContainer>
+      </AppContainer>
+    </LoginContext.Provider>
   );
 };
 

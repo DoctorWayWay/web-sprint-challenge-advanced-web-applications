@@ -1,16 +1,23 @@
 // Libraries
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from "axios";
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
+// Context
+import LoginContext from '../contexts/LoginContext';
+
 const Login = () => {
     const { push } = useHistory();
+
+    const { loginStatus } = useContext(LoginContext);
 
     const [login, setLogin] = useState({
         username: "",
         password: "",
     });
+
+    const [loginError, setLoginError] = useState("");
 
     const handleChange = (event) => {
         setLogin({
@@ -38,6 +45,7 @@ const Login = () => {
             <h2>Please enter your account information.</h2>
         </ModalContainer>
         <FormGroup onSubmit={handleLogin}>
+            {loginError && <p id="error">Failure to login &#9785;</p>}
             <Label>
                 Username:
                 <Input

@@ -19,6 +19,8 @@ const Login = () => {
 
     const [loginError, setLoginError] = useState(false);
 
+    const [alreadyLoggedIn, setAlreadyLoggedIn] = useState(false);
+
     const handleChange = (event) => {
         setLogin({
             ...login,
@@ -28,16 +30,20 @@ const Login = () => {
 
     const handleLogin = (event) => {
         event.preventDefault();
-        console.log(login);
-        axios.post(`http://localhost:5000/api/login`, login)
-            .then((response) => {
-                localStorage.setItem("token", response.data.token);
-                loginStatus();
-                push("/view");
-            })
-            .catch(() => {
-                setLoginError(true);
-            });
+        if (localStorage.getItem("token")) {
+            setAlreadyLoggedIn(true);
+            return;
+        } else {
+            axios.post(`http://localhost:5000/api/login`, login)
+                .then((response) => {
+                    localStorage.setItem("token", response.data.token);
+                    loginStatus();
+                    push("/view");
+                })
+                .catch(() => {
+                    setLoginError(true);
+                });
+        }
     };
 
     return (<ComponentContainer>
@@ -47,6 +53,7 @@ const Login = () => {
         </ModalContainer>
         <FormGroup onSubmit={handleLogin}>
             {loginError === true && <p id="error">Failure to login &#9785;</p>}
+            {alreadyLoggedIn === true && <p>You are already logged in &#9786;</p>}
             <Label>
                 Username:
                 <Input

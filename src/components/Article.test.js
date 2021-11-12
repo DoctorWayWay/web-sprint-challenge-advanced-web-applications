@@ -8,7 +8,7 @@ import MutationObserver from 'mutationobserver-shim';
 // Components
 import Article from './Article';
 
-// Testing Article
+// Testing Articles
 const exampleArticle = {
   id: 1,
   headline: "Game of Thrones Season 9?",
@@ -46,8 +46,13 @@ test('renders "Associated Press" when no author is given', () => {
   expect(anonymousResponse).toBeInTheDocument;
 });
 
-// test('executes handleDelete when the delete button is pressed', ()=> {
-// });
+test('executes handleDelete when the delete button is pressed', () => {
+  const handleDeleteMock = jest.fn();
+  render(<Article article={exampleArticle} handleDelete={handleDeleteMock} />);
+  const deleteButton = screen.getByTestId("deleteButton");
+  userEvent.click(deleteButton);
+  expect(handleDeleteMock).toBeCalled();
+});
 
 //Task List:
 //1. Complete all above tests. Create test article data when needed.

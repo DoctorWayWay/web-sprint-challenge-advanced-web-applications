@@ -17,7 +17,7 @@ const Login = () => {
         password: "",
     });
 
-    const [loginError, setLoginError] = useState("");
+    const [loginError, setLoginError] = useState(false);
 
     const handleChange = (event) => {
         setLogin({
@@ -32,10 +32,11 @@ const Login = () => {
         axios.post(`http://localhost:5000/api/login`, login)
             .then((response) => {
                 localStorage.setItem("token", response.data.token);
+                loginStatus();
                 push("/view");
             })
-            .catch((error) => {
-                console.error(error);
+            .catch(() => {
+                setLoginError(true);
             });
     };
 
@@ -45,7 +46,7 @@ const Login = () => {
             <h2>Please enter your account information.</h2>
         </ModalContainer>
         <FormGroup onSubmit={handleLogin}>
-            {loginError && <p id="error">Failure to login &#9785;</p>}
+            {loginError === true && <p id="error">Failure to login &#9785;</p>}
             <Label>
                 Username:
                 <Input

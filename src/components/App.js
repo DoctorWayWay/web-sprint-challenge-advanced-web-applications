@@ -12,16 +12,25 @@ import Logout from './Logout';
 const App = () => {
   return (
     <AppContainer>
-      <LambdaHeader/>
-      <Header/>
+      <LambdaHeader />
+      <Header />
       <RouteContainer>
+        <Route path="/logout">
+          <Logout />
+        </Route>
+        <Route exact path="/view">
+          <View />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
         <Route exact path="/">
-          <Login/>
-        </Route>          
+          <Login />
+        </Route>
       </RouteContainer>
     </AppContainer>
-  )
-}
+  );
+};
 
 export default App;
 
@@ -34,10 +43,10 @@ export default App;
 
 const AppContainer = styled.div`
   height: 100%;
-`
+`;
 const RouteContainer = styled.div`
   display: flex;
   height: 85%;
   align-items: center;
   flex-direction: column;
-`
+`;

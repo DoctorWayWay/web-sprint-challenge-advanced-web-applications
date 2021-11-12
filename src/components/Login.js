@@ -1,15 +1,69 @@
-import React from 'react';
+// Libraries
+import React, { useState } from 'react';
+import axios from "axios";
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
-    
-    return(<ComponentContainer>
+    const { push } = useHistory();
+
+    const [login, setLogin] = useState({
+        username: "",
+        password: "",
+    });
+
+    const handleChange = (event) => {
+        setLogin({
+            ...login,
+            [event.target.name]: event.target.value
+        });
+    };
+
+    const handleLogin = (event) => {
+        event.preventDefault();
+        console.log(login);
+        axios.post(`http://localhost:5000/api/login`, login)
+            .then((response) => {
+                localStorage.setItem("token", response.data.token);
+                push("/view");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    return (<ComponentContainer>
         <ModalContainer>
             <h1>Welcome to Blogger Pro</h1>
             <h2>Please enter your account information.</h2>
         </ModalContainer>
+        <FormGroup onSubmit={handleLogin}>
+            <Label>
+                Username:
+                <Input
+                    type="text"
+                    placeholder="username..."
+                    name="username"
+                    id="username"
+                    value={login.username}
+                    onChange={handleChange}
+                />
+            </Label>
+            <Label>
+                Password:
+                <Input
+                    type="password"
+                    placeholder="password..."
+                    name="password"
+                    id="password"
+                    value={login.password}
+                    onChange={handleChange}
+                />
+            </Label>
+            <Button id="submit">Login</Button>
+        </FormGroup>
     </ComponentContainer>);
-}
+};
 
 export default Login;
 
@@ -26,32 +80,32 @@ const ComponentContainer = styled.div`
     justify-content: center;
     align-items: center;
     display:flex;
-`
+`;
 
 const ModalContainer = styled.div`
     width: 500px;
     background: white;
     padding: 2rem;
     text-align: center;
-`
+`;
 
 const Label = styled.label`
     display: block;
     text-align: left;
     font-size: 1.5rem;
-`
+`;
 
 const FormGroup = styled.form`
     padding:1rem;
-`
+`;
 
 const Input = styled.input`
     font-size: 1rem;
     padding: 1rem 0;
     width:100%;
-`
+`;
 
 const Button = styled.button`
     padding:1rem;
     width: 100%;
-`
+`;

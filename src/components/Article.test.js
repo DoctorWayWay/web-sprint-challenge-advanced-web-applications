@@ -18,6 +18,11 @@ const exampleArticle = {
   body: "The cake is a lie"
 };
 
+const anonymousArticle = {
+  ...exampleArticle,
+  author: "",
+};
+
 
 test('renders component without errors', () => {
   render(<Article article={exampleArticle} />);
@@ -35,8 +40,11 @@ test('renders headline, author from the article when passed in through props', (
   expect(body).toBeInTheDocument;
 });
 
-// test('renders "Associated Press" when no author is given', ()=> {
-// });
+test('renders "Associated Press" when no author is given', () => {
+  render(<Article article={anonymousArticle} />);
+  const anonymousResponse = screen.getByText(/Associated Press/i);
+  expect(anonymousResponse).toBeInTheDocument;
+});
 
 // test('executes handleDelete when the delete button is pressed', ()=> {
 // });
